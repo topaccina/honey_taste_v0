@@ -50,13 +50,37 @@
 }
 
 @media (max-width: 768px) {
+  .flavor-wheel-app {
+    padding: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .flavor-wheel-main {
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
   .wheel-wrapper {
     justify-content: flex-start;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    flex: none;
+    overflow: hidden;
   }
 
   .wheel-container {
-    max-width: min(280vmin, 2200px);
+    width: 200vw;
+    max-width: none;
+    height: 200vw;
+    aspect-ratio: 1;
     transform: translateX(-50%);
+    margin: 0;
   }
 }
 
