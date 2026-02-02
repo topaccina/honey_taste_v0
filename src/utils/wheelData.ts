@@ -1,4 +1,4 @@
-import type { FlavorNode, FlavorWheelData, WheelSegment } from '../types';
+import type { FlavorWheelData, WheelSegment } from '../types';
 
 function flattenToSegments(
   data: FlavorWheelData,
