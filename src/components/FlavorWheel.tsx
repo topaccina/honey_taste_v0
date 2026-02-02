@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { WheelSegment } from '../types';
 import { buildWheelSegments, getSegmentsByRing } from '../utils/wheelData';
 import { describeArc, midAngle, polarToCart } from '../utils/arc';
@@ -65,6 +65,10 @@ export default function FlavorWheel() {
     y: number;
   } | null>(null);
   const dragRef = useRef<{ startAngle: number; startRotation: number } | null>(null);
+  const pinchRef = useRef<{ initialDistance: number; initialZoom: number } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef(zoom);
+  zoomRef.current = zoom;
 
   const angleFromEvent = useCallback((e: React.PointerEvent | PointerEvent) => {
     const target = e.currentTarget as SVGElement;
@@ -108,6 +112,50 @@ export default function FlavorWheel() {
     e.preventDefault();
     setZoom((z) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z - e.deltaY * ZOOM_SENSITIVITY)));
   }, []);
+
+  const getTouchDistance = useCallback((touches: React.TouchList | TouchList) => {
+    const a = touches[0];
+    const b = touches[1];
+    return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+  }, []);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        pinchRef.current = {
+          initialDistance: getTouchDistance(e.touches),
+          initialZoom: zoomRef.current,
+        };
+      }
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && pinchRef.current) {
+        e.preventDefault();
+        const scale =
+          getTouchDistance(e.touches) / pinchRef.current.initialDistance;
+        const newZoom = Math.min(
+          ZOOM_MAX,
+          Math.max(ZOOM_MIN, pinchRef.current.initialZoom * scale)
+        );
+        setZoom(newZoom);
+      }
+    };
+    const handleTouchEndWithE = (e: TouchEvent) => {
+      if (e.touches.length < 2) pinchRef.current = null;
+    };
+    el.addEventListener('touchstart', handleTouchStart, { passive: true });
+    el.addEventListener('touchmove', handleTouchMove, { passive: false });
+    el.addEventListener('touchend', handleTouchEndWithE, { passive: true });
+    el.addEventListener('touchcancel', handleTouchEndWithE, { passive: true });
+    return () => {
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchmove', handleTouchMove);
+      el.removeEventListener('touchend', handleTouchEndWithE);
+      el.removeEventListener('touchcancel', handleTouchEndWithE);
+    };
+  }, [getTouchDistance]);
 
   const handleSegmentPointerEnter = useCallback(
     (seg: WheelSegment, e: React.PointerEvent) => {
@@ -168,6 +216,7 @@ export default function FlavorWheel() {
     <div className="flavor-wheel-app">
       <div className="flavor-wheel-main">
         <div
+          ref={wrapperRef}
           className="wheel-wrapper"
           style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
           onWheel={handleWheel}
@@ -240,7 +289,7 @@ export default function FlavorWheel() {
                     <tspan x={CX} dy="-0.35em">I sapori</tspan>
                     <tspan x={CX} dy="1.1em">del Miele</tspan>
                     <tspan x={CX} dy="1.4em" className="center-hint">Tocca per ruotare</tspan>
-                    <tspan x={CX} dy="1.1em" className="center-hint">Scroll per zoomare</tspan>
+                    <tspan x={CX} dy="1.1em" className="center-hint">Pinch o scroll per zoomare</tspan>
                   </text>
                 </g>
               </g>

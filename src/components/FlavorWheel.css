@@ -31,12 +31,22 @@
 
 .wheel-container {
   width: 100%;
-  max-width: min(90vmin, 800px);
+  max-width: min(80vmin, 1000px);
   aspect-ratio: 1;
   margin: 0 auto;
   touch-action: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 1400px) {
+  .flavor-wheel-main {
+    max-width: 1400px;
+  }
+
+  .wheel-container {
+    max-width: min(75vmin, 1100px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -45,7 +55,7 @@
   }
 
   .wheel-container {
-    max-width: min(180vmin, 1600px);
+    max-width: min(280vmin, 2200px);
     transform: translateX(-50%);
   }
 }
