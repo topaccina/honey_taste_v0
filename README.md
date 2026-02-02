@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
- apri [http://localhost:5173](http://localhost:5173).
+Ora apri [http://localhost:5173](http://localhost:5173).
 
 ## Build
 
