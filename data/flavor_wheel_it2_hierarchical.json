@@ -1,0 +1,457 @@
+{
+  "vegetale": {
+    "name": "Vegetale",
+    "description": "Note verdi e vegetali",
+    "children": {
+      "verde": {
+        "name": "Verde",
+        "description": "Note di fagioli freschi crudi, erba tagliata, foglie fresche di edera",
+        "children": {
+          "fagioli_freschi_crudi": {
+            "name": "fagioli freschi",
+            "description": "Nota caratteristica di fagioli freschi crudi"
+          },
+          "erba_tagliata": {
+            "name": "erba tagliata",
+            "description": "Nota caratteristica di erba tagliata"
+          },
+          "foglie_fresche_di_edera": {
+            "name": "edera",
+            "description": "Nota caratteristica di foglie fresche di edera"
+          }
+        }
+      },
+      "umido": {
+        "name": "Umido",
+        "description": "funghi champignon, spinaci bolliti",
+        "children": {
+          "funghi_champignon_crudi": {
+            "name": "champignon",
+            "description": "Nota caratteristica di funghi champignon crudi"
+          },
+          "spinaci_leggermente_bolliti": {
+            "name": "spinaci cotti",
+            "description": "Nota caratteristica di spinaci leggermente bolliti"
+          }
+        }
+      },
+      "secco": {
+        "name": "Secco",
+        "description": "Note di tè verde, fieno",
+        "children": {
+          "tè_verde": {
+            "name": "tè verde",
+            "description": "Nota caratteristica di tè verde"
+          },
+          "fieno": {
+            "name": "fieno",
+            "description": "Nota caratteristica di fieno"
+          }
+        }
+      }
+    }
+  },
+  "animale": {
+    "name": "Animale",
+    "description": "Aromi intensi e selvatici di origine animale",
+    "children": {
+      "cassis": {
+        "name": "Cassis",
+        "description": "Note caratteristiche di ribes nero (cassis)",
+        "children": {
+          "ribes_nero_cassis": {
+            "name": "ribes nero (cassis)",
+            "description": "Nota caratteristica di ribes nero (cassis)"
+          }
+        }
+      },
+      "valerianico": {
+        "name": "Valerianico",
+        "description": "Note di acido isovalerianico, acido butirrico, acido esanoico",
+        "children": {
+          "acido_isovalerianico": {
+            "name": "acido isovalerianico",
+            "description": "Nota caratteristica di acido isovalerianico"
+          },
+          "acido_butirrico": {
+            "name": "acido butirrico",
+            "description": "Nota caratteristica di acido butirrico"
+          },
+          "acido_esanoico": {
+            "name": "acido esanoico",
+            "description": "Nota caratteristica di acido esanoico"
+          }
+        }
+      },
+      "proteico": {
+        "name": "Proteico",
+        "description": "Note caratteristiche di funghi, porcini secchi, dado da brodo",
+        "children": {
+          "funghi_porcini_secchi": {
+            "name": "porcini secchi ",
+            "description": "Nota caratteristica di funghi, porcini secchi"
+          },
+          "dado_da_brodo": {
+            "name": "dado ",
+            "description": "Nota caratteristica di dado da brodo"
+          }
+        }
+      },
+      "solforato": {
+        "name": "Solforato",
+        "description": "Note caratteristiche di uovo sodo, dimetilsulfide, metionalde",
+        "children": {
+          "uovo_sodio_dimetilsulfide_metionalde": {
+            "name": "uovo sodo",
+            "description": "Nota caratteristica di uovo sodo, dimetilsulfide, metionalde"
+          }
+        }
+      }
+    }
+  },
+  "floreale": {
+    "name": "Floreale",
+    "description": "Aromi delicati e profumati di fiori",
+    "children": {
+      "fine": {
+        "name": "Fine",
+        "description": "Note di acqua distillata di fiori d'arancio, β-ionone",
+        "children": {
+          "acqua_distillata_di_fiori_darancio": {
+            "name": "fiori d'arancio",
+            "description": "Nota caratteristica di acqua distillata di fiori d'arancio"
+          },
+          "βionone": {
+            "name": "β-ionone",
+            "description": "Nota caratteristica di β-ionone"
+          }
+        }
+      },
+      "fiorito": {
+        "name": "Fiorito",
+        "description": "Note di rosa, ylang ylang, fenilacetaldeide",
+        "children": {
+          "rosa": {
+            "name": "rosa",
+            "description": "Nota caratteristica di rosa"
+          },
+          "ylang_ylang": {
+            "name": "ylang ylang",
+            "description": "Nota caratteristica di ylang ylang"
+          },
+          "fenilacetaldeide": {
+            "name": "fenilacetaldeide",
+            "description": "Nota caratteristica di fenilacetaldeide"
+          }
+        }
+      }
+    }
+  },
+  "fruttato": {
+    "name": "Fruttato",
+    "description": "Aromi e sapori di frutta, fresca o trasformata",
+    "children": {
+      "frutta_fresca": {
+        "name": "Frutta Fresca",
+        "description": "Note caratteristiche di aroma alimentare di frutti (fragola, pera, mela, lampone)",
+        "children": {
+          "aroma_alimentare_di_frutti_fragola_pera_mela_lampone": {
+            "name": "aroma di frutti",
+            "description": "Nota caratteristica di aroma alimentare di frutti (fragola, pera, mela, lampone)"
+          }
+        }
+      },
+      "frutta_tropicale": {
+        "name": "Frutta Tropicale",
+        "description": "Note di isoamilacetato, γ-decalattone",
+        "children": {
+          "isoamilacetato": {
+            "name": "isoamilacetato",
+            "description": "Nota caratteristica di isoamilacetato"
+          },
+          "γdecalattone": {
+            "name": "γ-decalattone",
+            "description": "Nota caratteristica di γ-decalattone"
+          }
+        }
+      },
+      "zuccherino": {
+        "name": "Zuccherino",
+        "description": "Note caratteristiche di zucchero d'uva (mosto concentrato rettificato)",
+        "children": {
+          "zucchero_duva_mosto_concentrato_rettificato": {
+            "name": "mosto concentrato",
+            "description": "Nota caratteristica di zucchero d'uva (mosto concentrato rettificato)"
+          }
+        }
+      },
+      "frutti_trasformati": {
+        "name": "Frutti Trasformati",
+        "description": "Note caratteristiche di succo di frutta d'albicocca, pomodori pelati",
+        "children": {
+          "succo_di_frutta_dalbicocca": {
+            "name": "succo d'albicocca",
+            "description": "Nota caratteristica di succo di frutta d'albicocca, pomodori pelati"
+          },"pomodori_pelati": {
+            "name": "pomodori pelati",
+            "description": "Nota caratteristica di succo di frutta d'albicocca, pomodori pelati"
+          }
+        }
+      },
+      "vinoso": {
+        "name": "Vinoso",
+        "description": "Note caratteristiche di vino bianco",
+        "children": {
+          "vino_bianco": {
+            "name": "vino bianco",
+            "description": "Nota caratteristica di vino bianco"
+          }
+        }
+      }
+    }
+  },
+  "caldo": {
+    "name": "Caldo",
+    "description": "Aromi dolci, tostati e caramellati",
+    "children": {
+      "fine": {
+        "name": "Fine",
+        "description": "Note di vanillina, benzoino, cera d'api",
+        "children": {
+          "vanillina": {
+            "name": "vanillina",
+            "description": "Nota caratteristica di vanillina"
+          },
+          "benzoino": {
+            "name": "benzoino",
+            "description": "Nota caratteristica di benzoino"
+          },
+          "cera_dapi": {
+            "name": "cera d'api",
+            "description": "Nota caratteristica di cera d'api"
+          }
+        }
+      },
+      "lattico": {
+        "name": "Lattico",
+        "description": "Note di latte concentrato zuccherato, diacetile",
+        "children": {
+          "latte_concentrato_zuccherato": {
+            "name": "latte concentrato",
+            "description": "Nota caratteristica di latte concentrato zuccherato"
+          },
+          "diacetile": {
+            "name": "diacetile",
+            "description": "Nota caratteristica di diacetile"
+          }
+        }
+      },
+      "caramellato": {
+        "name": "Caramellato",
+        "description": "Note di zucchero di canna, furanone",
+        "children": {
+          "zucchero_di_canna": {
+            "name": "zucchero di canna",
+            "description": "Nota caratteristica di zucchero di canna"
+          },
+          "furanone": {
+            "name": "furanone",
+            "description": "Nota caratteristica di furanone"
+          }
+        }
+      },
+      "tostato": {
+        "name": "Tostato",
+        "description": "Note di nocciole tostate, mandorle tostate, arachidi tostate",
+        "children": {
+          "nocciole_tostate": {
+            "name": "nocciole tostate",
+            "description": "Nota caratteristica di nocciole tostate"
+          },
+          "mandorle_tostate": {
+            "name": "mandorle tostate",
+            "description": "Nota caratteristica di mandorle tostate"
+          },
+          "arachidi_tostate": {
+            "name": "arachidi tostate",
+            "description": "Nota caratteristica di arachidi tostate"
+          }
+        }
+      },
+      "maltato": {
+        "name": "Maltato",
+        "description": "Note di sciroppo di malto d'orzo, sciroppo di malto di riso",
+        "children": {
+          "sciroppo_di_malto_dorzo": {
+            "name": "malto d'orzo",
+            "description": "Nota caratteristica di sciroppo di malto d'orzo"
+          },
+          "sciroppo_di_malto_di_riso": {
+            "name": "malto di riso",
+            "description": "Nota caratteristica di sciroppo di malto di riso"
+          }
+        }
+      },
+      "bruciato": {
+        "name": "Bruciato",
+        "description": "Note di orzo tostato, pane tostato (parte carbonizzata)",
+        "children": {
+          "orzo_tostato": {
+            "name": "orzo tostato",
+            "description": "Nota caratteristica di orzo tostato"
+          },
+          "pane_tostato_parte_carbonizzata": {
+            "name": "pane tostato",
+            "description": "Nota caratteristica di pane tostato (parte carbonizzata)"
+          }
+        }
+      }
+    }
+  },
+  "aromatico": {
+    "name": "Aromatico",
+    "description": "Note speziate ed erbacee",
+    "children": {
+      
+      "mandorla_amara": {
+        "name": "Mandorla Amara",
+        "description": "Note caratteristiche di cumarina",
+        "children": {
+          "cumarina": {
+            "name": "cumarina",
+            "description": "Nota caratteristica di cumarina"
+          }
+        }
+      },
+      "esperidato": {
+        "name": "Esperidato",
+        "description": "Note di limone, arancio dolce",
+        "children": {
+          "limone": {
+            "name": "limone",
+            "description": "Nota caratteristica di limone"
+          },
+          "arancio_dolce": {
+            "name": "arancio dolce",
+            "description": "Nota caratteristica di arancio dolce"
+          }
+        }
+      },
+      "canforato": {
+        "name": "Canforato",
+        "description": "Note di menta piperita, anice, eucalipto",
+        "children": {
+          "menta_piperita": {
+            "name": "menta piperita",
+            "description": "Nota caratteristica di menta piperita"
+          },
+          "anice": {
+            "name": "anice",
+            "description": "Nota caratteristica di anice"
+          },
+          "eucalipto": {
+            "name": "eucalipto",
+            "description": "Nota caratteristica di eucalipto"
+          }
+        }
+      },
+      "legnoso": {
+        "name": "Legnoso",
+        "description": "Note caratteristiche di muschio di quercia",
+        "children": {
+          "muschio_di_quercia": {
+            "name": "muschio di quercia",
+            "description": "Nota caratteristica di muschio di quercia"
+          }
+        }
+      },
+      "resinoso": {
+        "name": "Resinoso",
+        "description": "Note di pino mugo, incenso",
+        "children": {
+          "pino_mugo": {
+            "name": "pino mugo",
+            "description": "Nota caratteristica di pino mugo"
+          },
+          "incenso": {
+            "name": "incenso",
+            "description": "Nota caratteristica di incenso"
+          }
+        }
+      },
+      "speziato": {
+        "name": "Speziato",
+        "description": "Note di chiodi di garofano, noce moscata",
+        "children": {
+          "chiodi_di_garofano": {
+            "name": "chiodi di garofano",
+            "description": "Nota caratteristica di chiodi di garofano"
+          },
+          "noce_moscata": {
+            "name": "noce moscata",
+            "description": "Nota caratteristica di noce moscata"
+          }
+        }
+      }
+    }
+  },
+  "chimico": {
+    "name": "Chimico",
+    "description": "Note chimiche e artificiali",
+    "children": {
+      "ammoniaca": {
+        "name": "Ammoniaca",
+        "description": "Note caratteristiche di ammoniaca",
+        "children": {
+          "ammoniaca": {
+            "name": "ammoniaca",
+            "description": "Nota caratteristica di ammoniaca"
+          }
+        }
+      },
+      "aceto": {
+        "name": "Aceto",
+        "description": "Note caratteristiche di aceto di vino bianco",
+        "children": {
+          "aceto_di_vino_bianco": {
+            "name": "aceto di vino",
+            "description": "Nota caratteristica di aceto di vino bianco"
+          }
+        }
+      },
+      "affumicato": {
+        "name": "Affumicato",
+        "description": "Note di fumo di juta, estratto di mozziconi di sigaretta",
+        "children": {
+          "fumo_di_juta": {
+            "name": "fumo di juta",
+            "description": "Nota caratteristica di fumo di juta"
+          },
+          "estratto_di_mozziconi_di_sigaretta": {
+            "name": "mozziconi",
+            "description": "Nota caratteristica di estratto di mozziconi di sigaretta"
+          }
+        }
+      },
+      "sapone": {
+        "name": "Sapone",
+        "description": "Note caratteristiche di sapone di marsiglia (non profumato)",
+        "children": {
+          "sapone_di_marsiglia_non_profumato": {
+            "name": "sapone di marsiglia",
+            "description": "Nota caratteristica di sapone di marsiglia (non profumato)"
+          }
+        }
+      },"fenolico": {
+        "name": "Fenolico",
+        "description": "Note caratteristiche di fenolo, catrame vegetale",
+        "children": {
+          "fenolo_catrame_vegetale": {
+            "name": "fenolo, catrame",
+            "description": "Nota caratteristica di fenolo, catrame vegetale"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+.flavor-wheel-app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.flavor-wheel-main {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  flex: 1;
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  position: relative;
+}
+
+.wheel-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  touch-action: none;
+  overflow: hidden;
+}
+
+.wheel-container {
+  width: 100%;
+  max-width: min(90vmin, 800px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .wheel-wrapper {
+    justify-content: flex-start;
+  }
+
+  .wheel-container {
+    max-width: min(180vmin, 1600px);
+    transform: translateX(-50%);
+  }
+}
+
+.wheel-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+.wheel-svg:active {
+  cursor: grabbing;
+}
+
+.segment {
+  transition: filter 0.15s ease, fill-opacity 0.15s ease;
+  cursor: pointer;
+  outline: none;
+  fill-opacity: 0.92;
+}
+
+.segment:hover {
+  filter: brightness(1.08);
+  fill-opacity: 1;
+}
+
+.segment:focus-visible {
+  filter: brightness(1.12);
+  stroke: #2c1810;
+  stroke-width: 1;
+}
+
+.label {
+  pointer-events: none;
+  fill: #1a1a1a;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.label-ring1 {
+  font-size: 13px;
+}
+
+.label-ring2 {
+  font-size: 11px;
+}
+
+.label-ring3 {
+  font-size: 8px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .label-ring1 {
+    font-size: 11px;
+  }
+  .label-ring2 {
+    font-size: 9px;
+  }
+  .label-ring3 {
+    font-size: 7px;
+  }
+}
+
+.center-circle {
+  fill: #fef9f0;
+  stroke: #2c1810;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.center-label {
+  fill: #2c1810;
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.center-hint {
+  font-size: 10px;
+  font-weight: 500;
+  fill: #6b5344;
+}
+
+/* ----- Tooltip ----- */
+.wheel-tooltip {
+  position: fixed;
+  z-index: 100;
+  max-width: min(320px, 90vw);
+  padding: 0.75rem 1rem;
+  background: rgba(28, 20, 16, 0.95);
+  color: #fef9f0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.wheel-tooltip-title {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.wheel-tooltip-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: rgba(254, 249, 240, 0.92);
+}
