@@ -43,6 +43,20 @@ function tangentialLabelRotation(midDeg: number, wheelRotation: number): number 
   return upsideDown ? alongArc + 180 : alongArc;
 }
 
+/** Position tooltip toward viewport center so it never covers the sector label. */
+function getTooltipPosition(segmentViewportX: number, segmentViewportY: number): { x: number; y: number } {
+  const vw = typeof window !== 'undefined' ? window.innerWidth / 2 : 400;
+  const vh = typeof window !== 'undefined' ? window.innerHeight / 2 : 400;
+  const dx = vw - segmentViewportX;
+  const dy = vh - segmentViewportY;
+  const len = Math.hypot(dx, dy) || 1;
+  const offset = 100;
+  return {
+    x: segmentViewportX + (dx / len) * offset,
+    y: segmentViewportY + (dy / len) * offset,
+  };
+}
+
 export default function FlavorWheel() {
   const segments = useMemo(
     () => buildWheelSegments(wheelData as import('../types').FlavorWheelData),
@@ -164,11 +178,10 @@ export default function FlavorWheel() {
       const mid = midAngle(seg.startAngle, seg.endAngle);
       const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
       const [sx, sy] = polarToCart(CX, CY, r, mid);
-      setTooltip({
-        seg,
-        x: rect.left + (sx / VIEW_SIZE) * rect.width,
-        y: rect.top + (sy / VIEW_SIZE) * rect.height,
-      });
+      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
+      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
+      const { x, y } = getTooltipPosition(segX, segY);
+      setTooltip({ seg, x, y });
     },
     []
   );
@@ -179,14 +192,11 @@ export default function FlavorWheel() {
       const mid = midAngle(seg.startAngle, seg.endAngle);
       const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
       const [sx, sy] = polarToCart(CX, CY, r, mid);
+      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
+      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
+      const { x, y } = getTooltipPosition(segX, segY);
       setTooltip((prev) =>
-        prev?.seg.id === seg.id
-          ? {
-              seg,
-              x: rect.left + (sx / VIEW_SIZE) * rect.width,
-              y: rect.top + (sy / VIEW_SIZE) * rect.height,
-            }
-          : prev
+        prev?.seg.id === seg.id ? { seg, x, y } : prev
       );
     },
     []
@@ -204,11 +214,10 @@ export default function FlavorWheel() {
       const mid = midAngle(seg.startAngle, seg.endAngle);
       const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
       const [sx, sy] = polarToCart(CX, CY, r, mid);
-      setTooltip({
-        seg,
-        x: rect.left + (sx / VIEW_SIZE) * rect.width,
-        y: rect.top + (sy / VIEW_SIZE) * rect.height,
-      });
+      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
+      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
+      const { x, y } = getTooltipPosition(segX, segY);
+      setTooltip({ seg, x, y });
     }
   }, [tooltip]);
 
@@ -261,17 +270,39 @@ export default function FlavorWheel() {
                     const rot = useVertical
                       ? tangentialLabelRotation(mid, rotation)
                       : -rotation;
+                    const isOuterTwoLine = ring === 3 && seg.name.includes(' ');
+                    const [line1, line2] = isOuterTwoLine
+                      ? (() => {
+                          const idx = seg.name.indexOf(' ');
+                          return idx < 0
+                            ? [seg.name, '']
+                            : [seg.name.slice(0, idx), seg.name.slice(idx + 1)];
+                        })()
+                      : [seg.name, ''];
                     return (
                       <text
                         key={`label-${seg.id}`}
                         x={x}
                         y={y}
-                        className={`label label-ring${ring}`}
+                        className={`label label-ring${ring}${isOuterTwoLine ? ' label-ring3-two-line' : ''}`}
                         textAnchor="middle"
                         dominantBaseline="middle"
                         transform={`rotate(${rot} ${x} ${y})`}
                       >
-                        {seg.name}
+                        {isOuterTwoLine ? (
+                          <>
+                            <tspan x={x} dy={line2 ? '-0.45em' : 0}>
+                              {line1}
+                            </tspan>
+                            {line2 && (
+                              <tspan x={x} dy="1.05em">
+                                {line2}
+                              </tspan>
+                            )}
+                          </>
+                        ) : (
+                          seg.name
+                        )}
                       </text>
                     );
                   })
@@ -303,7 +334,7 @@ export default function FlavorWheel() {
             style={{
               left: tooltip.x,
               top: tooltip.y,
-              transform: 'translate(-50%, calc(-100% - 8px))',
+              transform: 'translate(-50%, -50%)',
             }}
             role="tooltip"
           >
