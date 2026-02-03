@@ -28,6 +28,11 @@ const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 3;
 const ZOOM_SENSITIVITY = 0.002;
 
+/* Circular arrow around center (rotation hint) */
+const ROTATE_ARROW_R = 58;
+const ROTATE_ARROW_START = 210;
+const ROTATE_ARROW_END = 330;
+
 function getRadius(ring: 1 | 2 | 3): { inner: number; outer: number } {
   return RING_RADII[ring];
 }
@@ -41,20 +46,6 @@ function tangentialLabelRotation(midDeg: number, wheelRotation: number): number 
   const screenAngle = (alongArc + wheelRotation + 360) % 360;
   const upsideDown = screenAngle > 90 && screenAngle < 270;
   return upsideDown ? alongArc + 180 : alongArc;
-}
-
-/** Position tooltip toward viewport center so it never covers the sector label. */
-function getTooltipPosition(segmentViewportX: number, segmentViewportY: number): { x: number; y: number } {
-  const vw = typeof window !== 'undefined' ? window.innerWidth / 2 : 400;
-  const vh = typeof window !== 'undefined' ? window.innerHeight / 2 : 400;
-  const dx = vw - segmentViewportX;
-  const dy = vh - segmentViewportY;
-  const len = Math.hypot(dx, dy) || 1;
-  const offset = 100;
-  return {
-    x: segmentViewportX + (dx / len) * offset,
-    y: segmentViewportY + (dy / len) * offset,
-  };
 }
 
 export default function FlavorWheel() {
@@ -73,11 +64,6 @@ export default function FlavorWheel() {
 
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [tooltip, setTooltip] = useState<{
-    seg: WheelSegment;
-    x: number;
-    y: number;
-  } | null>(null);
   const dragRef = useRef<{ startAngle: number; startRotation: number } | null>(null);
   const pinchRef = useRef<{ initialDistance: number; initialZoom: number } | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -171,55 +157,10 @@ export default function FlavorWheel() {
     };
   }, [getTouchDistance]);
 
-  const handleSegmentPointerEnter = useCallback(
-    (seg: WheelSegment, e: React.PointerEvent) => {
-      if (dragRef.current) return;
-      const rect = (e.currentTarget as SVGElement).getBoundingClientRect();
-      const mid = midAngle(seg.startAngle, seg.endAngle);
-      const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
-      const [sx, sy] = polarToCart(CX, CY, r, mid);
-      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
-      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
-      const { x, y } = getTooltipPosition(segX, segY);
-      setTooltip({ seg, x, y });
-    },
-    []
-  );
-
-  const handleSegmentPointerMove = useCallback(
-    (seg: WheelSegment, e: React.PointerEvent) => {
-      const rect = (e.currentTarget as SVGElement).getBoundingClientRect();
-      const mid = midAngle(seg.startAngle, seg.endAngle);
-      const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
-      const [sx, sy] = polarToCart(CX, CY, r, mid);
-      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
-      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
-      const { x, y } = getTooltipPosition(segX, segY);
-      setTooltip((prev) =>
-        prev?.seg.id === seg.id ? { seg, x, y } : prev
-      );
-    },
-    []
-  );
-
-  const handleSegmentPointerLeave = useCallback(() => {
-    setTooltip(null);
+  const handleReset = useCallback(() => {
+    setZoom(1);
+    setRotation(0);
   }, []);
-
-  const handleSegmentClick = useCallback((seg: WheelSegment, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (tooltip?.seg.id === seg.id) setTooltip(null);
-    else {
-      const rect = (e.currentTarget as SVGElement).getBoundingClientRect();
-      const mid = midAngle(seg.startAngle, seg.endAngle);
-      const r = (RING_RADII[seg.ring].inner + RING_RADII[seg.ring].outer) / 2;
-      const [sx, sy] = polarToCart(CX, CY, r, mid);
-      const segX = rect.left + (sx / VIEW_SIZE) * rect.width;
-      const segY = rect.top + (sy / VIEW_SIZE) * rect.height;
-      const { x, y } = getTooltipPosition(segX, segY);
-      setTooltip({ seg, x, y });
-    }
-  }, [tooltip]);
 
   return (
     <div className="flavor-wheel-app">
@@ -250,10 +191,6 @@ export default function FlavorWheel() {
                         d={path}
                         className="segment"
                         style={{ fill: getSegmentFill(seg.categoryId, seg.ring) }}
-                        onClick={(e) => handleSegmentClick(seg, e)}
-                        onPointerEnter={(e) => handleSegmentPointerEnter(seg, e)}
-                        onPointerMove={(e) => handleSegmentPointerMove(seg, e)}
-                        onPointerLeave={handleSegmentPointerLeave}
                         aria-label={seg.name}
                       />
                     );
@@ -310,6 +247,29 @@ export default function FlavorWheel() {
 
                 <g transform={`rotate(${-rotation} ${CX} ${CY})`}>
                   <circle cx={CX} cy={CY} r={R1_INNER - 4} className="center-circle" />
+                  {/* Circular arrow around center to suggest rotation */}
+                  <g className="center-rotate-arrow">
+                    {(() => {
+                      const [x1, y1] = polarToCart(CX, CY, ROTATE_ARROW_R, ROTATE_ARROW_START);
+                      const [x2, y2] = polarToCart(CX, CY, ROTATE_ARROW_R, ROTATE_ARROW_END);
+                      const [tx, ty] = polarToCart(CX, CY, ROTATE_ARROW_R + 12, ROTATE_ARROW_END);
+                      const [bx, by] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END);
+                      const [lx, ly] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END + 12);
+                      const [rx, ry] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END - 12);
+                      return (
+                        <>
+                          <path
+                            d={`M ${x1} ${y1} A ${ROTATE_ARROW_R} ${ROTATE_ARROW_R} 0 0 1 ${x2} ${y2}`}
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                          />
+                          <path d={`M ${tx} ${ty} L ${lx} ${ly} L ${rx} ${ry} Z`} className="center-rotate-arrow-head" />
+                        </>
+                      );
+                    })()}
+                  </g>
                   <text
                     x={CX}
                     y={CY}
@@ -319,29 +279,39 @@ export default function FlavorWheel() {
                   >
                     <tspan x={CX} dy="-0.35em">I sapori</tspan>
                     <tspan x={CX} dy="1.1em">del Miele</tspan>
-                    <tspan x={CX} dy="1.4em" className="center-hint">Tocca per ruotare</tspan>
-                    <tspan x={CX} dy="1.1em" className="center-hint">Pinch o scroll per zoomare</tspan>
                   </text>
+                  <g
+                    className="center-reset-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleReset();
+                    }}
+                    style={{ cursor: 'pointer' }}
+                    aria-label="Ripristina vista"
+                  >
+                    <rect
+                      x={CX - 24}
+                      y={CY + 18}
+                      width={48}
+                      height={20}
+                      rx={6}
+                      ry={6}
+                      className="center-reset-btn-bg"
+                    />
+                    <text
+                      x={CX}
+                      y={CY + 32}
+                      className="center-reset-btn-text"
+                      textAnchor="middle"
+                    >
+                      Reset
+                    </text>
+                  </g>
                 </g>
               </g>
             </svg>
           </div>
         </div>
-
-        {tooltip && (
-          <div
-            className="wheel-tooltip"
-            style={{
-              left: tooltip.x,
-              top: tooltip.y,
-              transform: 'translate(-50%, -50%)',
-            }}
-            role="tooltip"
-          >
-            <strong className="wheel-tooltip-title">{tooltip.seg.name}</strong>
-            <p className="wheel-tooltip-desc">{tooltip.seg.description}</p>
-          </div>
-        )}
       </div>
     </div>
   );

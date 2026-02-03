@@ -172,35 +172,35 @@
   pointer-events: none;
 }
 
-.center-hint {
-  font-size: 10px;
-  font-weight: 500;
-  fill: #6b5344;
-}
-
-/* ----- Tooltip ----- */
-.wheel-tooltip {
-  position: fixed;
-  z-index: 100;
-  max-width: min(320px, 90vw);
-  padding: 0.75rem 1rem;
-  background: rgba(28, 20, 16, 0.95);
-  color: #fef9f0;
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+.center-rotate-arrow {
+  fill: #2c1810;
+  stroke: #2c1810;
   pointer-events: none;
 }
 
-.wheel-tooltip-title {
-  display: block;
-  margin: 0 0 0.35rem;
-  font-size: 0.95rem;
-  font-weight: 700;
+.center-rotate-arrow-head {
+  stroke: none;
 }
 
-.wheel-tooltip-desc {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  color: rgba(254, 249, 240, 0.92);
+/* ----- Small reset button under center title ----- */
+.center-reset-btn-bg {
+  fill: #fef9f0;
+  stroke: #2c1810;
+  stroke-width: 1.5;
+}
+
+.center-reset-btn:hover .center-reset-btn-bg {
+  fill: #f5efe5;
+}
+
+.center-reset-btn:active .center-reset-btn-bg {
+  fill: #ebe5dc;
+}
+
+.center-reset-btn-text {
+  fill: #2c1810;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  pointer-events: none;
 }
