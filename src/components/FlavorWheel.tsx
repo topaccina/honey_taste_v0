@@ -253,7 +253,6 @@ export default function FlavorWheel() {
                       const [x1, y1] = polarToCart(CX, CY, ROTATE_ARROW_R, ROTATE_ARROW_START);
                       const [x2, y2] = polarToCart(CX, CY, ROTATE_ARROW_R, ROTATE_ARROW_END);
                       const [tx, ty] = polarToCart(CX, CY, ROTATE_ARROW_R + 12, ROTATE_ARROW_END);
-                      const [bx, by] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END);
                       const [lx, ly] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END + 12);
                       const [rx, ry] = polarToCart(CX, CY, ROTATE_ARROW_R - 8, ROTATE_ARROW_END - 12);
                       return (
